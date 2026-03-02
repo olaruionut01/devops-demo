@@ -14,12 +14,12 @@ pipeline{
             }
         }
 
-        stage('Run containter'){
+        stage('Run container'){
             steps{
                 sh '''
-                docker stop devops-containter || true
+                docker stop devops-container || true
                 docker rm devops-container || true
-                docker run -d -p 5000:5000 --name devops-containter devops-demo
+                docker run -d -p 5000:5000 --name devops-container devops-demo
                 '''
             }
         }
