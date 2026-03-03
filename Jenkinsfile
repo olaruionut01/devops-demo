@@ -14,8 +14,16 @@ pipeline{
         }
 
         stage('Run tests'){
+            agent {
+                docker {
+                    image 'python:3.11-slim'
+                }
+            }
             steps{
-                sh 'python -m pytest'
+                sh '''
+                pip install -r requirements.txt
+                python -m pytest
+                '''
             }
         }
 
@@ -31,14 +39,14 @@ pipeline{
         stage('Push image'){
             steps{
                 withCredentials([usernamePassword(
-                    credetialsId: 'dockerhub-creds',
+                    credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
                     sh '''
                     echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                    docker push username/devops-demo:${BUILD_NUMBER}
-                    docker push username/devops-demo:latest
+                    docker push olaruionut01/devops-demo:${BUILD_NUMBER}
+                    docker push olaruionut01/devops-demo:latest
                     '''
                 }
             }
