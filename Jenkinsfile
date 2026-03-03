@@ -7,11 +7,7 @@ pipeline{
               git branch: 'main', url: 'https://github.com/olaruionut01/devops-demo.git'
             }
         }
-        stage('Install Dependencies'){
-            steps{
-                sh 'pip install -r requirements.txt'
-            }
-        }
+        
 
         stage('Run tests'){
             agent {
